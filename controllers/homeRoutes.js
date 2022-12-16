@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const { Project, User } = require('../models');
+const withAuth = require('../utils/auth');
 
 router.get('/', async (req, res) => {
     try {
@@ -13,11 +14,13 @@ router.get('/', async (req, res) => {
   })
 
 // get profile
-router.get('/profile', async (req, res) => {
+router.get('/profile', withAuth, async (req, res) => {
   try {
-    const userData = await User.findByPk(req.session.user_id);
+    const userData = await User.findByPk(req.session.user_id, {
+       include: [{ model: Project }]
+    });
     const user = userData.get({ plain: true });
-    res.render('profile', { user });
+    res.render('profile', { user, loggedIn: true });
 
     req.session.save(() => {
       req.session.user_id = userData.id;
@@ -32,7 +35,7 @@ router.get('/profile', async (req, res) => {
 // Login route
 router.get('/login', (req, res) => {
   if (req.session.loggedIn) {
-    res.redirect('/');
+    res.redirect('/profile');
     return;
   }
   res.render('login');

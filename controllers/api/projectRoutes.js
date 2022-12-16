@@ -13,7 +13,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-
+// create project
 router.post('/', async (req, res) => {
   try {
     const newProject = await Project.create({
