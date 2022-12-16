@@ -1,0 +1,11 @@
+{{#if loggedIn}}
+<h1>Welcome {{user.name}}</h1>
+<section class="project">
+  <div class="project-details">
+    <h3>{{project.name}}</h3>
+    <p>{{project.description}}</p>
+  </div>
+</section>
+{{else}}
+<a href="/login">You must login first to view this page</a>
+{{/if}}
