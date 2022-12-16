@@ -21,7 +21,8 @@
         <button class="btn btn-primary" type="submit">Create</button>
       </div>
     </form>
-    
+
+ {{#if projects.length}}   
 {{#each projects as |project|}}
   <div class="project-details">
     <h3>{{name}}</h3>
@@ -29,7 +30,7 @@
   </div>
 {{/each}}
   </div>
-
+{{/if}}
 </section>
 {{else}}
 <a href="/login">You must login first to view this page</a>

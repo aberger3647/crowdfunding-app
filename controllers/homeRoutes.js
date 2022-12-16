@@ -2,6 +2,7 @@ const router = require('express').Router();
 const { Project, User } = require('../models');
 const withAuth = require('../utils/auth');
 
+// get all projects
 router.get('/', async (req, res) => {
     try {
       const allProjects = await Project.findAll( { include: [ { model: User }]});
@@ -20,12 +21,13 @@ router.get('/profile', withAuth, async (req, res) => {
        include: [{ model: Project }]
     });
     const user = userData.get({ plain: true });
-    res.render('profile', { user, loggedIn: true });
+    console.log(user)
+    res.render('profile', { ...user, loggedIn: true });
 
-    req.session.save(() => {
-      req.session.user_id = userData.id;
-      req.session.logged_in = true;
-    });
+    // req.session.save(() => {
+    //   req.session.user_id = userData.id;
+    //   // req.session.logged_in = true;
+    // });
 
   } catch (err) {
     res.status(400).json(err);
